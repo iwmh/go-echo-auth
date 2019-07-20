@@ -2,6 +2,9 @@ package main
 
 import (
 	"github.com/gorilla/sessions"
+	"github.com/iwmh/go-echo-auth/Model"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo-contrib/session"
 	"net/http"
@@ -11,9 +14,19 @@ func main() {
 	e := echo.New()
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
+	db, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=goechoauth sslmode=disable")
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	db.AutoMigrate(&Model.User{}, &Model.Session{})
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+
 	e.GET("/login", func(c echo.Context) error {
 		sess, _ := session.Get("ses_echo", c)
 		sess.Options = &sessions.Options{
