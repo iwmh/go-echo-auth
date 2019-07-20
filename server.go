@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gorilla/sessions"
-	"github.com/iwmh/go-echo-auth/Model"
+	"github.com/iwmh/go-echo-auth/model"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/labstack/echo"
@@ -21,7 +21,7 @@ func main() {
 
 	defer db.Close()
 
-	db.AutoMigrate(&Model.User{}, &Model.Session{})
+	db.AutoMigrate(&model.User{}, &model.Session{})
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
