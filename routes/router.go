@@ -14,6 +14,8 @@ func Router(app *model.Application, e *echo.Echo) {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
+	e.Static("/", "/static")
+
 	// Create User
 	e.POST("/api/users", func(c echo.Context) error {
 		u := new(model.User)
