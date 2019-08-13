@@ -10,11 +10,7 @@ import (
 
 func Router(app *model.Application, e *echo.Echo) {
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-
-	e.Static("/", "/static")
+	e.Static("/", "static/build")
 
 	// Create User
 	e.POST("/api/users", func(c echo.Context) error {
